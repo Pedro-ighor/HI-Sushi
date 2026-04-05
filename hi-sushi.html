@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hi Sushi — Restaurante Japonês · Miguel Pereira</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red: #C0272D;
+    --red-light: #E8393F;
+    --gold: #C9973A;
+    --gold-light: #E8B95A;
+    --ink: #0D0D0D;
+    --ink-mid: #1A1A1A;
+    --ink-soft: #2A2A2A;
+    --paper: #FAF6F0;
+    --paper-mid: #F0EAE0;
+    --white: #FFFFFF;
+    --muted: #888;
+    --border: rgba(255,255,255,0.07);
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--ink);
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 56px;
+    background: rgba(13,13,13,0.9);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-brand {
+    display: flex; align-items: center; gap: 14px;
+  }
+  .nav-logo-mark {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--red);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 16px; font-weight: 900; color: white;
+    letter-spacing: -1px; position: relative; overflow: hidden;
+  }
+  .nav-logo-mark::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+    background: var(--gold);
+  }
+  .nav-brand-text { font-family: 'Noto Serif JP', serif; font-size: 20px; font-weight: 700; letter-spacing: 1px; }
+  .nav-brand-text span { color: var(--red); }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 13px; font-weight: 500; letter-spacing: 0.5px; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-order {
+    background: var(--red); color: white; border: none;
+    padding: 10px 24px; border-radius: 2px; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-weight: 700;
+    font-size: 13px; letter-spacing: 1px; text-transform: uppercase;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .nav-order:hover { background: var(--red-light); transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding-top: 80px;
+    position: relative; overflow: hidden;
+  }
+  /* Japanese pattern background */
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0; pointer-events: none;
+    background:
+      radial-gradient(circle at 70% 50%, rgba(192,39,45,0.08) 0%, transparent 60%),
+      radial-gradient(circle at 20% 80%, rgba(201,151,58,0.05) 0%, transparent 50%);
+  }
+  /* Seigaiha pattern on right */
+  .hero-pattern {
+    position: absolute; right: 0; top: 0; bottom: 0; width: 52%;
+    pointer-events: none; overflow: hidden; opacity: 0.04;
+    background-image: radial-gradient(circle at 50% 0, transparent 40%, rgba(255,255,255,0.8) 41%, rgba(255,255,255,0.8) 50%, transparent 51%),
+                      radial-gradient(circle at 0% 50%, transparent 40%, rgba(255,255,255,0.8) 41%, rgba(255,255,255,0.8) 50%, transparent 51%),
+                      radial-gradient(circle at 100% 50%, transparent 40%, rgba(255,255,255,0.8) 41%, rgba(255,255,255,0.8) 50%, transparent 51%),
+                      radial-gradient(circle at 50% 100%, transparent 40%, rgba(255,255,255,0.8) 41%, rgba(255,255,255,0.8) 50%, transparent 51%);
+    background-size: 60px 60px;
+  }
+
+  .hero-content {
+    padding: 80px 56px 80px 80px;
+    animation: fadeUp 0.9s ease both;
+    position: relative; z-index: 1;
+  }
+  .hero-eyebrow {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 32px;
+  }
+  .hero-eyebrow-line { width: 40px; height: 1px; background: var(--red); }
+  .hero-eyebrow span { font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); }
+  .hero-kanji {
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(80px, 12vw, 140px);
+    font-weight: 900; line-height: 0.85;
+    color: rgba(255,255,255,0.04);
+    position: absolute; top: 80px; left: 60px;
+    pointer-events: none; user-select: none;
+    writing-mode: vertical-rl;
+  }
+  .hero h1 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(40px, 5vw, 64px);
+    font-weight: 900; line-height: 1.1;
+    margin-bottom: 20px;
+    position: relative; z-index: 1;
+  }
+  .hero h1 .red { color: var(--red); }
+  .hero h1 .gold { color: var(--gold); }
+  .hero p {
+    font-size: 16px; line-height: 1.8;
+    color: rgba(255,255,255,0.55);
+    max-width: 400px; margin-bottom: 40px;
+  }
+  .hero-meta {
+    display: flex; gap: 32px; margin-bottom: 40px;
+  }
+  .hero-meta-item { display: flex; flex-direction: column; gap: 4px; }
+  .hero-meta-item strong { font-size: 13px; font-weight: 700; color: var(--gold); letter-spacing: 0.5px; }
+  .hero-meta-item span { font-size: 12px; color: var(--muted); }
+  .hero-actions { display: flex; gap: 16px; }
+  .btn-red {
+    background: var(--red); color: white; padding: 14px 32px;
+    border: none; border-radius: 2px; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-weight: 700;
+    font-size: 14px; letter-spacing: 0.5px; text-transform: uppercase;
+    text-decoration: none; display: inline-block;
+    transition: all 0.2s;
+  }
+  .btn-red:hover { background: var(--red-light); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(192,39,45,0.4); }
+  .btn-ghost {
+    background: transparent; color: white; padding: 14px 32px;
+    border: 1px solid rgba(255,255,255,0.2); border-radius: 2px; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-weight: 600;
+    font-size: 14px; letter-spacing: 0.5px; text-transform: uppercase;
+    text-decoration: none; display: inline-block; transition: all 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+  .hero-visual {
+    padding: 60px 60px 60px 0;
+    display: flex; flex-direction: column; gap: 16px;
+    animation: fadeUp 0.9s 0.2s ease both;
+    position: relative; z-index: 1;
+  }
+  .hero-featured-card {
+    background: var(--ink-soft);
+    border: 1px solid var(--border);
+    border-radius: 4px; overflow: hidden;
+    border-top: 3px solid var(--red);
+  }
+  .hero-card-img {
+    height: 200px; background: linear-gradient(135deg, #1a0a0a, #2d1010);
+    display: flex; align-items: center; justify-content: center; font-size: 72px;
+    position: relative;
+  }
+  .hero-card-img .badge {
+    position: absolute; top: 16px; right: 16px;
+    background: var(--red); color: white; font-size: 11px; font-weight: 700;
+    padding: 4px 12px; border-radius: 2px; letter-spacing: 1px; text-transform: uppercase;
+  }
+  .hero-card-body { padding: 20px 24px; }
+  .hero-card-body h4 { font-family: 'Noto Serif JP', serif; font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .hero-card-body p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .hero-card-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 24px; border-top: 1px solid var(--border);
+  }
+  .hero-card-footer .price { font-family: 'Noto Serif JP', serif; font-size: 22px; font-weight: 700; color: var(--gold); }
+  .hero-card-footer button {
+    background: var(--red); color: white; border: none; padding: 8px 20px;
+    border-radius: 2px; font-family: 'DM Sans', sans-serif; font-weight: 700;
+    font-size: 12px; letter-spacing: 0.5px; cursor: pointer; text-transform: uppercase;
+    transition: background 0.2s;
+  }
+  .hero-card-footer button:hover { background: var(--red-light); }
+  .hero-mini-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .mini-card {
+    background: var(--ink-soft); border: 1px solid var(--border); border-radius: 4px;
+    padding: 16px; display: flex; gap: 12px; align-items: center;
+    transition: border-color 0.2s;
+  }
+  .mini-card:hover { border-color: rgba(192,39,45,0.4); }
+  .mini-card-icon { font-size: 28px; flex-shrink: 0; }
+  .mini-card h5 { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+  .mini-card span { font-size: 12px; color: var(--gold); font-weight: 600; }
+
+  /* ── STATUS BAR ── */
+  .status-bar {
+    background: var(--red);
+    display: flex; align-items: center; justify-content: center; gap: 48px;
+    padding: 16px 56px;
+    position: relative; overflow: hidden;
+  }
+  .status-bar::before {
+    content: '寿司'; font-family: 'Noto Serif JP', serif; font-size: 80px;
+    position: absolute; left: 20px; top: -10px; opacity: 0.1; font-weight: 900;
+  }
+  .status-item { display: flex; align-items: center; gap: 8px; }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.5); }
+  .status-dot.live { background: #4ade80; box-shadow: 0 0 8px #4ade80; animation: pulse-dot 2s infinite; }
+  .status-item span { font-size: 13px; font-weight: 600; letter-spacing: 0.5px; color: rgba(255,255,255,0.9); }
+  .status-item strong { color: white; }
+  @keyframes pulse-dot { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+  /* ── SECTION SHARED ── */
+  .section-eyebrow {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 12px;
+  }
+  .section-eyebrow-line { width: 32px; height: 1px; }
+  .section-eyebrow-line.red { background: var(--red); }
+  .section-eyebrow-line.gold { background: var(--gold); }
+  .section-eyebrow span { font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; }
+  .section-eyebrow span.red { color: var(--red); }
+  .section-eyebrow span.gold { color: var(--gold); }
+  .section-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(28px, 3.5vw, 44px); font-weight: 900; line-height: 1.15;
+    margin-bottom: 12px;
+  }
+  .section-sub { font-size: 15px; color: rgba(255,255,255,0.5); line-height: 1.7; max-width: 480px; }
+
+  /* ── MENU ── */
+  #menu { padding: 100px 56px; background: var(--ink-mid); }
+  .menu-header { text-align: center; margin-bottom: 56px; }
+  .menu-header .section-eyebrow { justify-content: center; }
+  .menu-header .section-sub { margin: 0 auto; }
+
+  .menu-tabs {
+    display: flex; gap: 4px; justify-content: center; flex-wrap: wrap;
+    margin-bottom: 48px;
+  }
+  .menu-tab {
+    background: transparent; color: rgba(255,255,255,0.4);
+    border: 1px solid rgba(255,255,255,0.1); padding: 8px 18px;
+    border-radius: 2px; cursor: pointer; font-family: 'DM Sans', sans-serif;
+    font-size: 12px; font-weight: 600; letter-spacing: 0.5px;
+    text-transform: uppercase; transition: all 0.2s;
+  }
+  .menu-tab.active, .menu-tab:hover {
+    background: var(--red); color: white; border-color: var(--red);
+  }
+
+  .menu-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+  }
+  .menu-card {
+    background: var(--ink-soft); border: 1px solid var(--border); border-radius: 4px;
+    overflow: hidden; transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    cursor: pointer;
+  }
+  .menu-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+    border-color: rgba(192,39,45,0.3);
+  }
+  .menu-card-img {
+    height: 140px; display: flex; align-items: center; justify-content: center;
+    font-size: 52px; position: relative;
+  }
+  .menu-card-img.bg1 { background: linear-gradient(135deg, #1a0505, #2d0808); }
+  .menu-card-img.bg2 { background: linear-gradient(135deg, #0a1a0a, #0d2a0d); }
+  .menu-card-img.bg3 { background: linear-gradient(135deg, #1a1200, #2d2000); }
+  .menu-card-img.bg4 { background: linear-gradient(135deg, #050a1a, #0a1530); }
+  .menu-card-img.bg5 { background: linear-gradient(135deg, #1a0a10, #2d1020); }
+  .menu-card-img.bg6 { background: linear-gradient(135deg, #0a0a0a, #1a1a1a); }
+  .menu-card-tag {
+    position: absolute; top: 10px; left: 10px;
+    font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 2px;
+  }
+  .menu-card-tag.red { background: var(--red); color: white; }
+  .menu-card-tag.gold { background: var(--gold); color: var(--ink); }
+  .menu-card-tag.new { background: #16a34a; color: white; }
+  .menu-card-body { padding: 18px 20px; }
+  .menu-card-body h4 { font-size: 15px; font-weight: 700; margin-bottom: 6px; line-height: 1.3; }
+  .menu-card-body p { font-size: 12px; color: rgba(255,255,255,0.45); line-height: 1.6; }
+  .menu-card-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 20px; border-top: 1px solid var(--border);
+  }
+  .menu-price { font-family: 'Noto Serif JP', serif; font-size: 18px; font-weight: 700; color: var(--gold); }
+  .menu-order-btn {
+    background: transparent; color: var(--red); border: 1px solid var(--red);
+    padding: 6px 14px; border-radius: 2px; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.5px; text-transform: uppercase; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .menu-order-btn:hover { background: var(--red); color: white; }
+
+  /* ── HIGHLIGHTS ── */
+  #destaques { padding: 100px 56px; background: var(--ink); }
+  .destaques-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); margin-top: 56px; border: 1px solid var(--border); }
+  .destaque-item {
+    background: var(--ink-mid); padding: 36px 28px; text-align: center;
+    transition: background 0.2s;
+  }
+  .destaque-item:hover { background: var(--ink-soft); }
+  .destaque-item .emoji { font-size: 40px; margin-bottom: 16px; display: block; }
+  .destaque-item h4 { font-family: 'Noto Serif JP', serif; font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+  .destaque-item p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* ── COMBOS ── */
+  #combos { padding: 100px 56px; background: var(--ink-mid); }
+  .combos-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; margin-top: 56px; }
+  .combo-card {
+    background: var(--ink-soft); border: 1px solid var(--border); border-radius: 4px;
+    padding: 28px; position: relative; overflow: hidden;
+    transition: border-color 0.25s, transform 0.25s;
+  }
+  .combo-card:hover { border-color: rgba(192,39,45,0.4); transform: translateY(-3px); }
+  .combo-card::before {
+    content: attr(data-num); font-family: 'Noto Serif JP', serif;
+    font-size: 100px; font-weight: 900; color: rgba(255,255,255,0.02);
+    position: absolute; right: -10px; bottom: -20px; line-height: 1;
+  }
+  .combo-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .combo-card-header h4 { font-family: 'Noto Serif JP', serif; font-size: 20px; font-weight: 700; }
+  .combo-badge { background: var(--red); color: white; padding: 4px 12px; border-radius: 2px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
+  .combo-items { list-style: none; margin-bottom: 20px; display: flex; flex-direction: column; gap: 6px; }
+  .combo-items li {
+    font-size: 13px; color: rgba(255,255,255,0.6); padding-left: 16px; position: relative;
+  }
+  .combo-items li::before { content: '一'; position: absolute; left: 0; color: var(--red); font-size: 10px; top: 3px; }
+  .combo-footer { display: flex; align-items: center; justify-content: space-between; }
+  .combo-price { font-family: 'Noto Serif JP', serif; font-size: 28px; font-weight: 900; color: var(--gold); }
+  .combo-order {
+    background: var(--red); color: white; border: none; padding: 10px 22px;
+    border-radius: 2px; font-family: 'DM Sans', sans-serif; font-weight: 700;
+    font-size: 12px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px;
+    transition: background 0.2s;
+  }
+  .combo-order:hover { background: var(--red-light); }
+
+  /* ── PEDIDO ── */
+  #pedido { padding: 100px 56px; background: var(--ink); }
+  .pedido-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .pedido-info .section-title { font-size: clamp(32px, 4vw, 52px); }
+  .pedido-steps { margin-top: 40px; display: flex; flex-direction: column; gap: 24px; }
+  .pedido-step { display: flex; gap: 20px; align-items: flex-start; }
+  .step-num {
+    width: 40px; height: 40px; border-radius: 2px;
+    background: var(--red); display: flex; align-items: center; justify-content: center;
+    font-family: 'Noto Serif JP', serif; font-weight: 900; font-size: 16px;
+    flex-shrink: 0;
+  }
+  .step-text strong { display: block; font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+  .step-text span { font-size: 13px; color: var(--muted); }
+
+  .pedido-form-card {
+    background: var(--ink-soft); border: 1px solid var(--border); border-radius: 4px;
+    padding: 40px; border-top: 3px solid var(--gold);
+  }
+  .pedido-form-card h3 { font-family: 'Noto Serif JP', serif; font-size: 22px; font-weight: 700; margin-bottom: 28px; }
+  .form-row { margin-bottom: 18px; }
+  .form-row label { display: block; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,255,255,0.4); margin-bottom: 8px; }
+  .form-row input, .form-row textarea, .form-row select {
+    width: 100%; padding: 12px 16px; background: var(--ink-mid);
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 2px;
+    color: white; font-family: 'DM Sans', sans-serif; font-size: 14px;
+    outline: none; transition: border-color 0.2s; resize: none;
+  }
+  .form-row input::placeholder, .form-row textarea::placeholder { color: rgba(255,255,255,0.25); }
+  .form-row input:focus, .form-row textarea:focus, .form-row select:focus { border-color: var(--red); }
+  .form-row select option { background: var(--ink-soft); }
+  .form-row textarea { height: 100px; }
+  .form-submit {
+    width: 100%; padding: 14px; background: var(--red); color: white;
+    border: none; border-radius: 2px; font-family: 'DM Sans', sans-serif;
+    font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;
+    cursor: pointer; transition: background 0.2s, transform 0.15s; margin-top: 8px;
+  }
+  .form-submit:hover { background: var(--red-light); transform: translateY(-1px); }
+  .form-error { display: none; color: #f87171; font-size: 12px; font-weight: 600; margin-bottom: 12px; }
+
+  /* ── INSTAGRAM ── */
+  #insta { padding: 100px 56px; background: var(--ink-mid); text-align: center; }
+  #insta .section-eyebrow { justify-content: center; }
+  .insta-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 48px 0; }
+  .insta-item {
+    aspect-ratio: 1; border-radius: 2px; overflow: hidden; cursor: pointer;
+    font-size: 44px; display: flex; align-items: center; justify-content: center;
+    position: relative; transition: transform 0.25s;
+  }
+  .insta-item:hover { transform: scale(1.04); }
+  .insta-item::after {
+    content: ''; position: absolute; inset: 0;
+    background: rgba(192,39,45,0); transition: background 0.2s;
+  }
+  .insta-item:hover::after { background: rgba(192,39,45,0.25); }
+  .insta-item:nth-child(1) { background: linear-gradient(135deg, #1a0505, #3d1010); }
+  .insta-item:nth-child(2) { background: linear-gradient(135deg, #0d0d0d, #2a0808); }
+  .insta-item:nth-child(3) { background: linear-gradient(135deg, #1a0f00, #2d1a00); }
+  .insta-item:nth-child(4) { background: linear-gradient(135deg, #050510, #0d0d2a); }
+  .insta-item:nth-child(5) { background: linear-gradient(135deg, #0d1a00, #1a2d00); }
+  .insta-item:nth-child(6) { background: linear-gradient(135deg, #1a0505, #400d0d); }
+  .insta-item:nth-child(7) { background: linear-gradient(135deg, #0d0d0d, #1a1200); }
+  .insta-item:nth-child(8) { background: linear-gradient(135deg, #0a0510, #1a0d2a); }
+
+  /* ── FOOTER ── */
+  footer { background: #080808; padding: 64px 56px 28px; border-top: 1px solid var(--border); }
+  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid var(--border); }
+  .footer-brand p { color: rgba(255,255,255,0.35); font-size: 13px; line-height: 1.8; margin-top: 16px; max-width: 260px; }
+  .footer-gold-line { width: 48px; height: 2px; background: var(--gold); margin: 14px 0; }
+  .footer-col h5 { color: var(--gold); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col ul a { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 13px; transition: color 0.2s; }
+  .footer-col ul a:hover { color: var(--gold); }
+  .footer-bottom { display: flex; align-items: center; justify-content: space-between; padding-top: 24px; }
+  .footer-bottom p { color: rgba(255,255,255,0.2); font-size: 11px; }
+  .footer-social { display: flex; gap: 10px; }
+  .social-btn {
+    width: 34px; height: 34px; border-radius: 2px; background: rgba(255,255,255,0.05);
+    display: flex; align-items: center; justify-content: center; font-size: 14px;
+    text-decoration: none; transition: background 0.2s;
+  }
+  .social-btn:hover { background: var(--red); }
+
+  /* ── WHATSAPP FAB ── */
+  .wpp-fab {
+    position: fixed; bottom: 28px; right: 28px; z-index: 99;
+    width: 56px; height: 56px; border-radius: 50%;
+    background: #25D366; display: flex; align-items: center; justify-content: center;
+    font-size: 24px; text-decoration: none; box-shadow: 0 6px 24px rgba(37,211,102,0.5);
+    transition: transform 0.2s; animation: pulseFab 2.5s infinite;
+  }
+  .wpp-fab:hover { transform: scale(1.1); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulseFab {
+    0%,100% { box-shadow: 0 6px 24px rgba(37,211,102,0.5); }
+    50%      { box-shadow: 0 6px 36px rgba(37,211,102,0.75); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1024px) {
+    nav { padding: 14px 24px; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-content { padding: 60px 24px 0; }
+    .hero-kanji { display: none; }
+    .hero-visual { padding: 32px 24px; }
+    #menu, #destaques, #combos, #pedido, #insta, footer { padding: 72px 24px; }
+    .menu-grid { grid-template-columns: repeat(2,1fr); }
+    .destaques-grid { grid-template-columns: repeat(2,1fr); }
+    .combos-layout { grid-template-columns: 1fr; }
+    .pedido-layout { grid-template-columns: 1fr; }
+    .insta-grid { grid-template-columns: repeat(3,1fr); }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+    .status-bar { gap: 20px; padding: 14px 24px; flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <div class="nav-logo-mark">Hi</div>
+    <span class="nav-brand-text"><span>Hi</span> Sushi</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="javascript:void(0)" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">Cardápio</a></li>
+    <li><a href="javascript:void(0)" onclick="document.getElementById('combos').scrollIntoView({behavior:'smooth'})">Combos</a></li>
+    <li><a href="javascript:void(0)" onclick="document.getElementById('pedido').scrollIntoView({behavior:'smooth'})">Delivery</a></li>
+    <li><a href="javascript:void(0)" onclick="document.getElementById('insta').scrollIntoView({behavior:'smooth'})">Instagram</a></li>
+  </ul>
+  <button class="nav-order" onclick="window.open('https://wa.me/5524981318012','_blank')">Pedir Agora</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-pattern"></div>
+  <div class="hero-kanji">寿司</div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <div class="hero-eyebrow-line"></div>
+      <span>Restaurante Japonês · Miguel Pereira</span>
+    </div>
+    <h1>A melhor<br>opção <span class="red">em</span><br><span class="gold">Miguel Pereira</span></h1>
+    <p>Feito para você com carinho. Sushi artesanal, ingredientes frescos e sabores que chegam até você via delivery.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <strong>19h às 22h</strong>
+        <span>Qua a Domingo</span>
+      </div>
+      <div class="hero-meta-item">
+        <strong>⭐ 4,3</strong>
+        <span>21 avaliações</span>
+      </div>
+      <div class="hero-meta-item">
+        <strong>🛵 Delivery</strong>
+        <span>Pedidos pelo WhatsApp</span>
+      </div>
+    </div>
+    <div class="hero-actions">
+      <button class="btn-red" onclick="window.open('https://wa.me/5524981318012','_blank')">💬 Fazer Pedido</button>
+      <button class="btn-ghost" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">Ver Cardápio</button>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-featured-card">
+      <div class="hero-card-img bg1">
+        🍣
+        <div class="badge">🔥 Destaque</div>
+      </div>
+      <div class="hero-card-body">
+        <h4>Big Hot Misto</h4>
+        <p>Nosso carro-chefe: um grande temaki frito empanado na farinha panko, recheado com cream cheese, salmão e camarão. Crocante por fora, cremoso e suculento por dentro.</p>
+      </div>
+      <div class="hero-card-footer">
+        <span class="price">R$ 48,00</span>
+        <button onclick="pedirItem('Big Hot Misto', 'R$ 48,00')">Pedir</button>
+      </div>
+    </div>
+    <div class="hero-mini-cards">
+      <div class="mini-card">
+        <div class="mini-card-icon">🥢</div>
+        <div>
+          <h5>Copo de Sushi</h5>
+          <span>A partir de R$ 48</span>
+        </div>
+      </div>
+      <div class="mini-card">
+        <div class="mini-card-icon">🍱</div>
+        <div>
+          <h5>Promoção 50 Peças</h5>
+          <span>R$ 77,00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATUS BAR -->
+<div class="status-bar">
+  <div class="status-item">
+    <div class="status-dot live"></div>
+    <span><strong>Delivery ativo</strong> — Pedidos pelo WhatsApp</span>
+  </div>
+  <div class="status-item">
+    <div class="status-dot"></div>
+    <span>Quarta a Domingo · <strong>19h às 22h</strong></span>
+  </div>
+  <div class="status-item">
+    <div class="status-dot"></div>
+    <span>Disponível no <strong>99Food</strong></span>
+  </div>
+  <div class="status-item">
+    <div class="status-dot"></div>
+    <span>📍 <strong>Miguel Pereira — RJ</strong></span>
+  </div>
+</div>
+
+<!-- MENU -->
+<section id="menu">
+  <div class="menu-header">
+    <div class="section-eyebrow">
+      <div class="section-eyebrow-line red"></div>
+      <span class="red">Cardápio Completo</span>
+    </div>
+    <h2 class="section-title">Escolha o seu favorito</h2>
+    <p class="section-sub">Do clássico ao criativo — cada peça feita com ingredientes frescos e muito carinho.</p>
+  </div>
+
+  <div class="menu-tabs">
+    <button class="menu-tab active" onclick="filtrarMenu('todos', this)">Todos</button>
+    <button class="menu-tab" onclick="filtrarMenu('entradas', this)">Entradas</button>
+    <button class="menu-tab" onclick="filtrarMenu('light', this)">Salmão Light</button>
+    <button class="menu-tab" onclick="filtrarMenu('makimonos', this)">Makimonos</button>
+    <button class="menu-tab" onclick="filtrarMenu('temaki', this)">Temaki</button>
+    <button class="menu-tab" onclick="filtrarMenu('sashimi', this)">Sashimi</button>
+    <button class="menu-tab" onclick="filtrarMenu('especiais', this)">Especiais</button>
+    <button class="menu-tab" onclick="filtrarMenu('porcoes', this)">Porções</button>
+  </div>
+
+  <div class="menu-grid" id="menuGrid">
+
+    <!-- ENTRADAS -->
+    <div class="menu-card" data-cat="entradas">
+      <div class="menu-card-img bg1">🥗<div class="menu-card-tag gold">Entrada</div></div>
+      <div class="menu-card-body">
+        <h4>Ceviche de Salmão</h4>
+        <p>Pedaços suculentos de salmão fresco marinados com cebola roxa, limão siciliano e cebolinha. Fresco, leve e cheio de sabor.</p>
+      </div>
+      <div class="menu-card-footer"><span class="menu-price">R$ 35,00</span><button class="menu-order-btn" onclick="pedirItem('Ceviche de Salmão','R$ 35,00')">Pedir</button></div>
+    </div>
+
+    <div class="menu-card" data-cat="entradas">
+      <div class="menu-card-img bg2">🦐<div class="menu-card-tag gold">Entrada</div></div>
+      <div class="menu-card-body">
+        <h4>Ceviche de Camarão</h4>
+        <p>Camarões frescos marinados com cebola roxa, limão e cebolinha. Uma entrada refrescante e sofisticada.</p>
+      </div>
+      <div class="menu-card-footer"><span class="menu-price">R$ 37,00</span><button class="menu-order-btn" onclick="pedirItem('Ceviche de Camarão','R$ 37,00')">Pedir</button></div>
+    </div>
+
+    <div class="menu-card" data-cat="entradas">
+      <div class="menu-card-img bg3">🍡<div class="menu-card-tag gold">Entrada</div></div>
+      <div class="menu-card-body">
+        <h4>Tataki de Salmão</h4>
+        <p>Pedaços de salmão levemente grelhados por fora e crus por dentro, finalizados com vinagre de arroz, cebolinha e gergelim torrado.</p>
+      </div>
+      <div class="menu-card-footer"><span class="menu-price">R$ 29,00</span><button class="menu-order-btn" onclick="pedirItem('Tataki de Salmão','R$ 29,00')">Pedir</button></div>
+    </div>
+
+    <!-- SALMÃO LIGHT -->
+    <div class="menu-card" data-cat="light">
+      <div class="menu-card-img bg1">🍣<div class="menu-card-tag red">Light</div></div>
+      <div class="menu-card-body">
+        <h4>Salmão Light Cebolinha (10 un)</h4>
+        <p>Lâminas de salmão fresco enroladas com cream cheese e cebolinha. Levinho, elegante e irresistível.</p>
+      </div>
+      <div class="menu-card-footer"><span class="menu-price">R$ 46,00</span><button class="menu-order-btn" onclick="pedirItem('Salmão Light Cebolinha 10un','R$ 46,00')">Pedir</button></div>
+    </div>
+
+    <div class="menu-card" data-cat="light">
+      <div class="menu-card-img bg5">🌶️<div class="menu-card-tag red">Light</div></div>
+      <div class="menu-card-body">
+        <h4>Salmão Light Geleia de Pimenta (10 un)</h4>
+        <p>Lâminas de salmão com cream cheese cobertas por uma irresistível geleia de pimenta agridoce. Para quem ama sabores intensos.</p>
+      </div>
+      <div class="menu-card-footer"><span class="menu-price">R$ 46,00</span><button class="menu-order-btn" onclick="pedirItem('Salmão Light Geleia de Pimenta 10un','R$ 46,00')">Pedir</button></div>
+    </div>
+
+    <div class="menu-card" data-cat="light">
+      <div class="menu-card-img bg1">🍣<div class="menu-card-tag new">Especial</div></div>
+      <div class="menu-card-body">
+        <h4>Salmão Light Camarão (10 un)</h4>
+        <p>A combinação perfeita: lâminas de salmão com cream cheese, finalizado com camarão grelhado por cima. Sofisticado e delicioso.</p>
+      </div>
+      <div class="menu-card-footer"><span class="menu-price">R$ 47,00</span><button class="menu-order-btn" onclick="pedirItem('Salmão Light Camarão 10un','R$ 47,00')">Pedir</button></div>
+    </div>
+
+    <!-- MAKIMONOS -->
+    <div class="menu-card" data-cat="makimonos">
+      <div class="menu-card-img bg4">🍱<div class="menu-card-tag gold">Maki</div></div>
+      <div class="menu-card-body">
+        <h4>Philadelphia (10 un)</h4>
+        <p>O clássico que nunca decepciona. Arroz japonês envolto em alga, recheado com salmão fresco e cream cheese. Cremoso e equilibrado.</p>
+      </div>
+      <div class="menu-card-footer"><span class="menu-price">R$ 40,00</span><button class="menu-order-btn" onclick="pedirItem('Philadelphia 10un','R$ 40,00')">Pedir</button></div>
+    </div>
+
+    <div class="menu-card" data-cat="makimonos">
+      <div class="menu-card-img bg2">🌿<div class="menu-card-tag gold">Maki</div></div>
+      <div class="menu-card-body">
+        <h4>Uramaki Salmão (10 un)</h4>
+        <p>Arroz por fora, alga por dentro — recheado com salmão fresco. Uma apresentação bonita com sabor impecável.</p>
+      </div>
+      <div class="menu-card-footer"><span class="menu-price">R$ 40,00</span><button class="menu-order-btn" onclick="pedirItem('Uramaki Salmão 10un','R$ 40,00')">Pedir</button></div>
+    </div>
+
+    <div class="menu-card" data-cat="makimonos">
+      <div class="menu-card-img bg6">🔥<div class="menu-card-tag red">Hot</div></div>
+      <div class="menu-card-body">
+        <h4>Hot Philadelphia (10 un)</h4>
+        <p>A versão frita e crocante do Philadelphia clássico. Empanado dourado por fora, cremoso e quente por dentro. Viciante!</p>
+      </div>
+      <div class="menu-card-footer"><span class="menu-price">R$ 27,00</span><button class="menu-order-btn" onclick="pedirItem('Hot Philadelphia 10un','R$ 27,00')">Pedir</button></div>
+    </div>
+
+    <!-- TEMAKI -->
+    <div class="menu-card" data-cat="temaki">
+      <div class="menu-card-img bg1">🌮<div class="menu-card-tag red">Temaki</div></div>
+      <div class="menu-card-body">
+        <h4>Temaki Philadelphia</h4>
+        <p>Cone de alga crocante recheado com arroz, cream cheese e salmão fresco, finalizado com cebolinha. O favorito da casa.</p>
+      </div>
+      <div class="menu-card-footer"><span class="menu-price">R$ 37,00</span><button class="menu-order-btn" onclick="pedirItem('Temaki Philadelphia','R$ 37,00')">Pedir</button></div>
+    </div>
+
+    <div class="menu-card" data-cat="temaki">
+      <div class="menu-card-img bg6">🔥<div class="menu-card-tag red">Hot</div></div>
+      <div class="menu-card-body">
+        <h4>Temaki Hot Philadelphia</h4>
+        <p>Cone de alga frito empanado na farinha panko, recheado com arroz, cream cheese, salmão e cebolinha. Crocante e incrível!</p>
+      </div>
+      <div class="menu-card-footer"><span class="menu-price">R$ 38,00</span><button class="menu-order-btn" onclick="pedirItem('Temaki Hot Philadelphia','R$ 38,00')">Pedir</button></div>
+    </div>
+
+    <div class="menu-card" data-cat="temaki">
+      <div class="menu-card-img bg5">🌶️<div class="menu-card-tag gold">Temaki</div></div>
+      <div class="menu-card-body">
+        <h4>Temaki Skin</h4>
+        <p>Cone de alga recheado com arroz, cream cheese e pele de salmão crocante temperada com cebolinha. Sabor único e marcante.</p>
+      </div>
+      <div class="menu-card-footer"><span class="menu-price">R$ 30,00</span><button class="menu-order-btn" onclick="pedirItem('Temaki Skin','R$ 30,00')">Pedir</button></div>
+    </div>
+
+    <!-- SASHIMI -->
+    <div class="menu-card" data-cat="sashimi">
+      <div class="menu-card-img bg1">🐟<div class="menu-card-tag gold">Sashimi</div></div>
+      <div class="menu-card-body">
+        <h4>Sashimi de Salmão (10 un)</h4>
+        <p>Fatias finas e frescas de salmão premium, servidas com rodela de limão. Puro, limpo e para os verdadeiros apreciadores.</p>
+      </div>
+      <div class="menu-card-footer"><span class="menu-price">R$ 46,00</span><button class="menu-order-btn" onclick="pedirItem('Sashimi de Salmão 10un','R$ 46,00')">Pedir</button></div>
+    </div>
+
+    <div class="menu-card" data-cat="sashimi">
+      <div class="menu-card-img bg3">🍋<div class="menu-card-tag gold">Sashimi</div></div>
+      <div class="menu-card-body">
+        <h4>Sashimi Salmão Toast</h4>
+        <p>5 unidades de sashimi de salmão levemente flambadas com molho teriaki e gergelim tostado. Um equilíbrio perfeito entre cru e grelhado.</p>
+      </div>
+      <div class="menu-card-footer"><span class="menu-price">R$ 26,00</span><button class="menu-order-btn" onclick="pedirItem('Sashimi Salmão Toast','R$ 26,00')">Pedir</button></div>
+    </div>
+
+    <div class="menu-card" data-cat="sashimi">
+      <div class="menu-card-img bg4">🍚<div class="menu-card-tag gold">Sashimi</div></div>
+      <div class="menu-card-body">
+        <h4>Niguiri Salmão (10 un)</h4>
+        <p>Bolinho de arroz temperado coberto com uma fatia generosa de salmão fresco. Simples, elegante e delicioso.</p>
+      </div>
+      <div class="menu-card-footer"><span class="menu-price">R$ 35,00</span><button class="menu-order-btn" onclick="pedirItem('Niguiri Salmão 10un','R$ 35,00')">Pedir</button></div>
+    </div>
+
+    <!-- ESPECIAIS -->
+    <div class="menu-card" data-cat="especiais">
+      <div class="menu-card-img bg6">🔥<div class="menu-card-tag red">Big Hot</div></div>
+      <div class="menu-card-body">
+        <h4>Big Hot Salmão</h4>
+        <p>Versão gigante do Hot Philadelphia: um imenso temaki frito com alga, arroz, cream cheese, cebolinha e salmão. Para quem não quer parar na metade!</p>
+      </div>
+      <div class="menu-card-footer"><span class="menu-price">R$ 46,00</span><button class="menu-order-btn" onclick="pedirItem('Big Hot Salmão','R$ 46,00')">Pedir</button></div>
+    </div>
+
+    <div class="menu-card" data-cat="especiais">
+      <div class="menu-card-img bg2">🥤<div class="menu-card-tag new">Novo</div></div>
+      <div class="menu-card-body">
+        <h4>Copo Sushi de Salmão</h4>
+        <p>Camadas de arroz japonês, cream cheese, salmão fresco, cebolinha e gergelim, servidas em copo. Uma experiência visual e gastronômica única.</p>
+      </div>
+      <div class="menu-card-footer"><span class="menu-price">R$ 48,00</span><button class="menu-order-btn" onclick="pedirItem('Copo Sushi de Salmão','R$ 48,00')">Pedir</button></div>
+    </div>
+
+    <div class="menu-card" data-cat="especiais">
+      <div class="menu-card-img bg3">🥗<div class="menu-card-tag new">Poke</div></div>
+      <div class="menu-card-body">
+        <h4>Poke de Salmão</h4>
+        <p>Tigela havaiana com arroz japonês, salmão fresco, cream cheese, batata-doce crispy, couve crispy e tomate cereja. Colorido, nutritivo e delicioso.</p>
+      </div>
+      <div class="menu-card-footer"><span class="menu-price">R$ 37,00</span><button class="menu-order-btn" onclick="pedirItem('Poke de Salmão','R$ 37,00')">Pedir</button></div>
+    </div>
+
+    <!-- PORÇÕES -->
+    <div class="menu-card" data-cat="porcoes">
+      <div class="menu-card-img bg6">🍤<div class="menu-card-tag gold">Porção</div></div>
+      <div class="menu-card-body">
+        <h4>Tempurá (12 un)</h4>
+        <p>Camarões ou legumes crocantes empanados no clássico tempurá japonês. Sequinhos por fora, suculentos por dentro. Ótimo para compartilhar.</p>
+      </div>
+      <div class="menu-card-footer"><span class="menu-price">R$ 35,00</span><button class="menu-order-btn" onclick="pedirItem('Tempurá 12un','R$ 35,00')">Pedir</button></div>
+    </div>
+
+    <div class="menu-card" data-cat="porcoes">
+      <div class="menu-card-img bg5">🟠<div class="menu-card-tag gold">Porção</div></div>
+      <div class="menu-card-body">
+        <h4>Croquete de Salmão (12 un)</h4>
+        <p>Bolinhos crocantes de salmão empanados e dourados na frigideira. Crocantes por fora, macios e saborosos por dentro. Perfeitos como petisco.</p>
+      </div>
+      <div class="menu-card-footer"><span class="menu-price">R$ 32,00</span><button class="menu-order-btn" onclick="pedirItem('Croquete de Salmão 12un','R$ 32,00')">Pedir</button></div>
+    </div>
+
+    <div class="menu-card" data-cat="porcoes">
+      <div class="menu-card-img bg3">🥟<div class="menu-card-tag gold">Porção</div></div>
+      <div class="menu-card-body">
+        <h4>Harumaki de Salmão</h4>
+        <p>Rollinho crocante de massa filo recheado com salmão, cream cheese e cebolinha. Douradinho, quente e com aquele toque especial da nossa cozinha.</p>
+      </div>
+      <div class="menu-card-footer"><span class="menu-price">R$ 13,00</span><button class="menu-order-btn" onclick="pedirItem('Harumaki de Salmão','R$ 13,00')">Pedir</button></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- DESTAQUES -->
+<section id="destaques">
+  <div style="text-align:center; max-width:520px; margin:0 auto 0;">
+    <div class="section-eyebrow" style="justify-content:center">
+      <div class="section-eyebrow-line gold"></div>
+      <span class="gold">Por que o Hi Sushi?</span>
+    </div>
+    <h2 class="section-title">Feito para você<br>com carinho.</h2>
+    <p class="section-sub" style="margin:0 auto">Cada detalhe pensado para que você tenha a melhor experiência de sushi em Miguel Pereira.</p>
+  </div>
+  <div class="destaques-grid">
+    <div class="destaque-item">
+      <span class="emoji">🐟</span>
+      <h4>Ingredientes Frescos</h4>
+      <p>Salmão e frutos do mar selecionados diariamente para garantir frescor e qualidade em cada peça.</p>
+    </div>
+    <div class="destaque-item">
+      <span class="emoji">🛵</span>
+      <h4>Delivery Rápido</h4>
+      <p>Pedidos pelo WhatsApp e entrega direto na sua porta. Rápido, prático e sem complicação.</p>
+    </div>
+    <div class="destaque-item">
+      <span class="emoji">⭐</span>
+      <h4>4,3 estrelas</h4>
+      <p>21 avaliações de clientes satisfeitos. A melhor opção de japonês em Miguel Pereira — provada e aprovada.</p>
+    </div>
+    <div class="destaque-item">
+      <span class="emoji">🎁</span>
+      <h4>Feito com Carinho</h4>
+      <p>Cada pedido é preparado com atenção e dedicação. Aqui você não recebe apenas sushi — recebe experiência.</p>
+    </div>
+  </div>
+</section>
+
+<!-- COMBOS -->
+<section id="combos">
+  <div class="section-eyebrow">
+    <div class="section-eyebrow-line red"></div>
+    <span class="red">Promoções & Combos</span>
+  </div>
+  <h2 class="section-title">Mais por menos.</h2>
+  <p class="section-sub">Monte sua festa ou jante em família com nossos combos especiais. Economia sem abrir mão do sabor.</p>
+
+  <div class="combos-layout">
+    <div style="display:flex; flex-direction:column; gap:16px">
+
+      <div class="combo-card" data-num="①">
+        <div class="combo-card-header">
+          <h4>Combo 1</h4>
+          <span class="combo-badge">Popular</span>
+        </div>
+        <ul class="combo-items">
+          <li>5 Hot Philadelphia</li>
+          <li>2 Harumaki Camarão</li>
+          <li>1 Temaki Hot Philadelphia</li>
+        </ul>
+        <div class="combo-footer">
+          <span class="combo-price">R$ 45</span>
+          <button class="combo-order" onclick="pedirItem('Combo 1','R$ 45,00')">💬 Pedir</button>
+        </div>
+      </div>
+
+      <div class="combo-card" data-num="②">
+        <div class="combo-card-header">
+          <h4>Combo 2 — Light</h4>
+          <span class="combo-badge">Especial</span>
+        </div>
+        <ul class="combo-items">
+          <li>6 Salmão Light Cebolinha</li>
+          <li>3 Salmão Light Geleia de Pimenta</li>
+          <li>Mais itens inclusos</li>
+        </ul>
+        <div class="combo-footer">
+          <span class="combo-price">R$ 55</span>
+          <button class="combo-order" onclick="pedirItem('Combo 2','R$ 55,00')">💬 Pedir</button>
+        </div>
+      </div>
+
+      <div class="combo-card" data-num="③">
+        <div class="combo-card-header">
+          <h4>Promoção 50 Peças</h4>
+          <span class="combo-badge">Festa</span>
+        </div>
+        <ul class="combo-items">
+          <li>5 Salmão Light</li>
+          <li>5 Sashimi de Salmão</li>
+          <li>E mais 40 peças variadas</li>
+        </ul>
+        <div class="combo-footer">
+          <span class="combo-price">R$ 77</span>
+          <button class="combo-order" onclick="pedirItem('Promoção 50 Peças','R$ 77,00')">💬 Pedir</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:16px">
+
+      <div class="combo-card" data-num="④">
+        <div class="combo-card-header">
+          <h4>Promoção 60 Peças</h4>
+          <span class="combo-badge">Econômico</span>
+        </div>
+        <ul class="combo-items">
+          <li>5 Salmão Light</li>
+          <li>5 Salmão Lemon</li>
+          <li>E mais 50 peças variadas</li>
+        </ul>
+        <div class="combo-footer">
+          <span class="combo-price">R$ 85</span>
+          <button class="combo-order" onclick="pedirItem('Promoção 60 Peças','R$ 85,00')">💬 Pedir</button>
+        </div>
+      </div>
+
+      <div class="combo-card" data-num="⑤">
+        <div class="combo-card-header">
+          <h4>Combo Guaravita Grátis 🎉</h4>
+          <span class="combo-badge">Oferta</span>
+        </div>
+        <ul class="combo-items">
+          <li>15 Philadelphias</li>
+          <li>15 Ebimaki Holls</li>
+          <li>Guaravita de brinde!</li>
+        </ul>
+        <div class="combo-footer">
+          <span class="combo-price">R$ 110</span>
+          <button class="combo-order" onclick="pedirItem('Combo Guaravita Grátis','R$ 110,00')">💬 Pedir</button>
+        </div>
+      </div>
+
+      <div class="combo-card" data-num="⑥">
+        <div class="combo-card-header">
+          <h4>Promoção 100 Peças</h4>
+          <span class="combo-badge">Mega</span>
+        </div>
+        <ul class="combo-items">
+          <li>20 Philadelphia</li>
+          <li>20 Ebimakis</li>
+          <li>E mais 60 peças variadas</li>
+        </ul>
+        <div class="combo-footer">
+          <span class="combo-price">R$ 195</span>
+          <button class="combo-order" onclick="pedirItem('Promoção 100 Peças','R$ 195,00')">💬 Pedir</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PEDIDO -->
+<section id="pedido">
+  <div class="pedido-layout">
+    <div class="pedido-info">
+      <div class="section-eyebrow">
+        <div class="section-eyebrow-line gold"></div>
+        <span class="gold">Delivery · WhatsApp</span>
+      </div>
+      <h2 class="section-title">Peça agora,<br>receba em casa.</h2>
+      <p class="section-sub">É simples, rápido e sem complicação. Seu sushi chega quentinho e fresquinho.</p>
+      <div class="pedido-steps">
+        <div class="pedido-step">
+          <div class="step-num">1</div>
+          <div class="step-text">
+            <strong>Escolha seus favoritos</strong>
+            <span>Navegue pelo cardápio e selecione o que quiser</span>
+          </div>
+        </div>
+        <div class="pedido-step">
+          <div class="step-num">2</div>
+          <div class="step-text">
+            <strong>Mande um Hi! pelo WhatsApp</strong>
+            <span>(24) 98131-8012 — atendimento rápido e simpático</span>
+          </div>
+        </div>
+        <div class="pedido-step">
+          <div class="step-num">3</div>
+          <div class="step-text">
+            <strong>Aguarde e aproveite</strong>
+            <span>Seu pedido chega fresquinho até você em Miguel Pereira</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pedido-form-card">
+      <h3>Monte seu pedido</h3>
+      <div class="form-row">
+        <label for="p-nome">Seu nome *</label>
+        <input id="p-nome" type="text" placeholder="Como posso te chamar?">
+      </div>
+      <div class="form-row">
+        <label for="p-end">Endereço de entrega</label>
+        <input id="p-end" type="text" placeholder="Rua, número — Miguel Pereira">
+      </div>
+      <div class="form-row">
+        <label for="p-pedido">Seu pedido *</label>
+        <textarea id="p-pedido" placeholder="Ex: 10 Salmão Light Cebolinha, 1 Temaki Philadelphia, 2 Harumaki de Salmão..."></textarea>
+      </div>
+      <div class="form-row">
+        <label for="p-pgto">Forma de pagamento</label>
+        <select id="p-pgto">
+          <option value="PIX">PIX</option>
+          <option value="Dinheiro">Dinheiro</option>
+          <option value="Cartão na entrega">Cartão na entrega</option>
+        </select>
+      </div>
+      <div class="form-error" id="p-erro">⚠️ Preencha seu nome e o pedido para continuar.</div>
+      <button class="form-submit" onclick="enviarPedido()">💬 Enviar Pedido pelo WhatsApp</button>
+      <p style="font-size:11px; color:rgba(255,255,255,0.3); margin-top:10px; text-align:center;">Você será redirecionado para o WhatsApp com o pedido já formatado.</p>
+    </div>
+  </div>
+</section>
+
+<!-- INSTAGRAM -->
+<section id="insta">
+  <div class="section-eyebrow" style="justify-content:center">
+    <div class="section-eyebrow-line red"></div>
+    <span class="red">Siga no Instagram</span>
+  </div>
+  <h2 class="section-title">@hisushimp</h2>
+  <p class="section-sub" style="margin:0 auto">Novidades, promoções e aquelas fotos que dão vontade de pedir na hora.</p>
+  <div class="insta-grid">
+    <div class="insta-item">🍣</div>
+    <div class="insta-item">🥢</div>
+    <div class="insta-item">🔥</div>
+    <div class="insta-item">🍱</div>
+    <div class="insta-item">🌶️</div>
+    <div class="insta-item">🥗</div>
+    <div class="insta-item">🐟</div>
+    <div class="insta-item">🎉</div>
+  </div>
+  <a href="https://instagram.com/hisushimp" target="_blank" class="btn-red">Ver Perfil Completo</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div class="nav-logo-mark">Hi</div>
+        <span style="font-family:'Noto Serif JP',serif; font-size:20px; font-weight:700;"><span style="color:var(--red)">Hi</span> Sushi</span>
+      </div>
+      <div class="footer-gold-line"></div>
+      <p>Restaurante japonês em Miguel Pereira — RJ. Feito com carinho, entregue com amor. Quarta a Domingo, das 19h às 22h.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Cardápio</h5>
+      <ul>
+        <li><a href="javascript:void(0)" onclick="filtrarMenu('entradas',null);document.getElementById('menu').scrollIntoView({behavior:'smooth'})">Entradas</a></li>
+        <li><a href="javascript:void(0)" onclick="filtrarMenu('light',null);document.getElementById('menu').scrollIntoView({behavior:'smooth'})">Salmão Light</a></li>
+        <li><a href="javascript:void(0)" onclick="filtrarMenu('makimonos',null);document.getElementById('menu').scrollIntoView({behavior:'smooth'})">Makimonos</a></li>
+        <li><a href="javascript:void(0)" onclick="filtrarMenu('temaki',null);document.getElementById('menu').scrollIntoView({behavior:'smooth'})">Temaki</a></li>
+        <li><a href="javascript:void(0)" onclick="filtrarMenu('especiais',null);document.getElementById('menu').scrollIntoView({behavior:'smooth'})">Especiais</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Informações</h5>
+      <ul>
+        <li><a href="javascript:void(0)">Miguel Pereira — RJ</a></li>
+        <li><a href="javascript:void(0)">Qua–Dom: 19h–22h</a></li>
+        <li><a href="javascript:void(0)">Delivery via WhatsApp</a></li>
+        <li><a href="javascript:void(0)">Disponível no 99Food</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Contato</h5>
+      <ul>
+        <li><a href="https://wa.me/5524981318012" target="_blank">(24) 98131-8012</a></li>
+        <li><a href="https://instagram.com/hisushimp" target="_blank">@hisushimp</a></li>
+        <li><a href="javascript:void(0)">Manda um Hi! 👋</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Hi Sushi · Todos os direitos reservados · Miguel Pereira — RJ</p>
+    <div class="footer-social">
+      <a href="https://instagram.com/hisushimp" target="_blank" class="social-btn">📸</a>
+      <a href="https://wa.me/5524981318012" target="_blank" class="social-btn">💬</a>
+    </div>
+  </div>
+</footer>
+
+<!-- WhatsApp FAB -->
+<a href="https://wa.me/5524981318012" class="wpp-fab" target="_blank" title="Pedir pelo WhatsApp">💬</a>
+
+<script>
+  /* ── MENU FILTER ── */
+  function filtrarMenu(cat, btn) {
+    var cards = document.querySelectorAll('.menu-card');
+    cards.forEach(function(c) {
+      c.style.display = (cat === 'todos' || c.dataset.cat === cat) ? 'block' : 'none';
+    });
+    if (btn) {
+      document.querySelectorAll('.menu-tab').forEach(function(t){ t.classList.remove('active'); });
+      btn.classList.add('active');
+    }
+  }
+
+  /* ── PEDIR ITEM ── */
+  function pedirItem(nome, preco) {
+    var texto = 'Olá, Hi Sushi! 🍣\n\nGostaria de pedir:\n*' + nome + '* — ' + preco + '\n\nPode me passar mais informações?';
+    window.open('https://wa.me/5524981318012?text=' + encodeURIComponent(texto), '_blank');
+  }
+
+  /* ── ENVIAR PEDIDO COMPLETO ── */
+  function enviarPedido() {
+    var nome   = document.getElementById('p-nome').value.trim();
+    var end    = document.getElementById('p-end').value.trim();
+    var pedido = document.getElementById('p-pedido').value.trim();
+    var pgto   = document.getElementById('p-pgto').value;
+    var erro   = document.getElementById('p-erro');
+
+    if (!nome || !pedido) { erro.style.display = 'block'; return; }
+    erro.style.display = 'none';
+
+    var texto = 'Olá, Hi Sushi! 🍣\n\n';
+    texto += '*Nome:* ' + nome + '\n';
+    if (end) texto += '*Endereço:* ' + end + '\n';
+    texto += '*Pagamento:* ' + pgto + '\n\n';
+    texto += '*Pedido:*\n' + pedido;
+
+    window.open('https://wa.me/5524981318012?text=' + encodeURIComponent(texto), '_blank');
+  }
+</script>
+</body>
+</html>
